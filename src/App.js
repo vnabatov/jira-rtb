@@ -19,6 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import { mainListItems, secondaryListItems } from './components/listItems'
 import { ThemeProvider } from '@material-ui/styles'
 import { lightBlue } from '@material-ui/core/colors'
+import io from 'socket.io-client'
 
 const theme = createMuiTheme({
   palette: {
@@ -111,6 +112,23 @@ const useStyles = makeStyles(theme => ({
     height: 240
   }
 }))
+
+let socket
+let dbs
+socket = io('/')
+socket.on('db', (data) => {
+  const parsedData = JSON.parse(data)
+
+  parsedData.sprints.forEach(sprint => {
+    sprint.dirty = false
+  })
+
+  dbs = parsedData
+  console.log('dbs', dbs)
+})
+socket.on('connect', () => {
+  console.log('connect')
+})
 
 export default function Dashboard () {
   const classes = useStyles()
