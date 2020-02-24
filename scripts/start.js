@@ -49,6 +49,7 @@ if (!fs.existsSync('db/lowdb.json')) {
   console.log(1)
 } else {
   console.log(2)
+
   require('./db-server-socket-io')
 }
 
